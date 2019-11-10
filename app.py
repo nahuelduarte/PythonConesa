@@ -33,7 +33,7 @@ def error_interno(e):
 def ingresar():
     formulario = LoginForm()
     if formulario.validate_on_submit():
-        with open('usuarios') as archivo:
+        with open('usuarios.csv') as archivo:
             archivo_csv = csv.reader(archivo)
             registro = next(archivo_csv)
             while registro:
@@ -53,7 +53,7 @@ def registrar():
     formulario = RegistrarForm()
     if formulario.validate_on_submit():
         if formulario.password.data == formulario.password_check.data:
-            with open('usuarios', 'a', newline='') as archivo:
+            with open('usuarios.csv', 'a', newline='') as archivo:
                 archivo_csv = csv.writer(archivo)
                 registro = [formulario.usuario.data, formulario.password.data]
                 archivo_csv.writerow(registro)
@@ -74,12 +74,12 @@ def logout():
 
 
 @app.route('/clientes')
-def bdatos():
+def clientes():
     if 'username' in session:
         with open('clientes.csv', 'r', encoding='utf-8') as archivo:
             archivo_csv = csv.reader(archivo)                
             encabezado = next(archivo_csv)                                
-            return render_template('tabla.html', cabeza=encabezado, cuerpo=archivo_csv)
+            return render_template('clientes.html', cabeza=encabezado, cuerpo=archivo_csv)
 
 
 @app.route('/sobre')
